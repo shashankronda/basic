@@ -6,7 +6,7 @@
   <title>Light/Dark Mode Switch</title>
   <style>
     body {
-      background-color: rgb(255, 255, 255);
+      background-color: rgb(0, 70, 199);
       color: rgb(0, 0, 0);
       transition: background-color 0.7s, color 0.7s;
       display: flex;
@@ -31,12 +31,12 @@
     }
     .slider {
       position: absolute;
-      cursor: pointer;
+      cursor:pointer;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #acacac;
+      background-color: #ffd828;
       transition: 0.4s;
       border-radius: 100px;
     }
@@ -47,7 +47,7 @@
       width: 60px;
       left: 7px;
       bottom: 5px;
-      background-color: white;
+      background-color: rgb(202, 8, 8);
       transition: 1.0s;
       border-radius: 50%;
     }
@@ -55,8 +55,8 @@
       background-color: #fdb61c;
     }
     input:checked + .slider:before {
-      transform: translateX(78px);
-      background-color: rgb(20, 18, 29);
+      transform: translateX(77px);
+      background-color: rgb(0, 0, 0);
     }
     .hidden-img {
       position: absolute;
@@ -66,10 +66,23 @@
       height: 200px;
       align-self: center;
       opacity: 0;
-      transition: opacity 0.7s ease;
+      transition: opacity 0.9s;
     }
     body.dark-mode .hidden-img {
       opacity: 1;
+    }
+    .hidden-img-light {
+      position: absolute;
+      top: -175px;
+      left: -45px;
+      width: 240px;
+      height: 150px;
+      align-self: center;
+      opacity: 1;
+      transition: opacity 0.9s;
+    }
+    body.dark-mode .hidden-img-light {
+      opacity: 0;
     }
   </style>
 </head>
@@ -77,8 +90,8 @@
   <label class="switch">
     <input type="checkbox" onclick="document.body.classList.toggle('dark-mode')">
     <span class="slider"></span>
-    <!-- Image that appears in dark mode -->
     <img src="https://purepng.com/public/uploads/large/purepng.com-batman-logobatmansuperherocomicdc-comicsbob-kanebat-manbruce-wayne-1701528523460ndohp.png" alt="Dark Mode Icon" class="hidden-img">
+    <img src="https://purepng.com/public/uploads/large/purepng.com-superman-logosupermanfictional-superherocomic-booksdc-comicscharacterjerry-siegelson-of-kryptonaction-comicsman-of-steel-1701528658379tlfcu.png" alt="Light Mode Icon" class="hidden-img-light">
   </label>
 </body>
 </html>
