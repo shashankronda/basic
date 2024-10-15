@@ -22,8 +22,8 @@
     .switch {
       position: relative;
       display: inline-block;
-      width: 200px;
-      height: 90px;
+      width: 150px;
+      height: 70px;
     }
     .switch input {
       width: 0;
@@ -43,20 +43,33 @@
     .slider:before {
       position: absolute;
       content: "";
-      height: 70px;
-      width: 70px;
-      left: 10px;
-      bottom: 9px;
+      height: 60px;
+      width: 60px;
+      left: 7px;
+      bottom: 5px;
       background-color: white;
       transition: 1.0s;
       border-radius: 50%;
     }
     input:checked + .slider {
-      background-color: #bd0000;
+      background-color: #fdb61c;
     }
     input:checked + .slider:before {
-      transform: translateX(108px);
+      transform: translateX(78px);
       background-color: rgb(20, 18, 29);
+    }
+    .hidden-img {
+      position: absolute;
+      top: -190px;
+      left: -25px;
+      width: 200px;
+      height: 200px;
+      align-self: center;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    body.dark-mode .hidden-img {
+      opacity: 1;
     }
   </style>
 </head>
@@ -64,6 +77,8 @@
   <label class="switch">
     <input type="checkbox" onclick="document.body.classList.toggle('dark-mode')">
     <span class="slider"></span>
+    <!-- Image that appears in dark mode -->
+    <img src="https://purepng.com/public/uploads/large/purepng.com-batman-logobatmansuperherocomicdc-comicsbob-kanebat-manbruce-wayne-1701528523460ndohp.png" alt="Dark Mode Icon" class="hidden-img">
   </label>
 </body>
 </html>
