@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif; 
+      background:linear-gradient(#1a1a2e,#000000);
+      color: #fff;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(#1a1a2e, #304b80);
+    }
+    header h1 {
+      flex: 1;
+      margin: 0;
+      font-size: 24px;
+    }
+    main {
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .table-container {
+      flex: 1;
+      max-width: 50%;
+      margin-right: 50px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+    table th {
+      background-color: #32407b;
+    }
+    .table-wrapper {
+      max-height: 300px; 
+      overflow-y: auto; 
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    input, select, button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-family: 'Poppins', sans-serif; 
+    }
+    input, select {
+      flex: 1;
+    }
+    button {
+      background-color: #3f72af;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #304b80;
+    }
+    .charts-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-left: 100px;
+    }
+    .chart {
+      max-width: 500px;
+      max-height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #payment-pie-chart, #payment-bar-chart {
+      width: 100%;
+      height: 100%;
+    }
+    .amount-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .amount-control button {
+      padding: 5px;
+      font-size: 12px;
+      background-color: #3f72af;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .amount-control button:hover {
+      background-color: #304b80;
+    }
+    #login-page {
+        padding-top: 300px;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(#1a1a2e, #304b80);
+      color: #fff;
+    }
+    #login-page input, #login-page button {
+      height: 35px;  
+      width: 220px;
+      display: flex;
+      padding: 10px;
+      margin: 10px;
+      border:#32407b;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+    #login-page button {
+        display: flex;
+      background-color: #3f72af;
+      color: white;
+      cursor: pointer;
+    }
+    #login-page button:hover {
+      background-color: #304b80;
+    }
+  </style>
+</head>
+<body>
+    <div id="login-page">
+        <center>
+        <h1>LOGIN</h1>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-button"><center>Login</center></button>
+        <p id="login-error" style="color: red; display: none; font-family: 'Poppins', sans-serif;">Invalid username or password!</p>
+        </center>
+      </div> 
+    <div id="main-page" style="display: none;">   
+  <header>
+    <h1>Invoice Data</h1>
+  </header>
+  <main>
+    <div class="container">
+      <div class="table-container">
+        <h2>A list of your recent invoices</h2>
+        <div class="table-wrapper">
+          <table id="invoice-table">
+            <thead>
+              <tr>
+                <th>Invoice</th>
+                <th>Status</th>
+                <th>Method</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-container">
+          <input type="text" id="invoice-id" placeholder="Invoice ID">
+          <select id="invoice-status">
+            <option value="" disabled selected>Select Status</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+            <option value="Unpaid">Unpaid</option>
+          </select>
+          <select id="payment-method">
+            <option value="" disabled selected>Select Method</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+          <input type="number" id="amount" placeholder="Amount">
+          <button id="add-invoice">Add Invoice</button>
+        </div>
+      </div>
+      <div class="charts-container">
+        <div class="chart">
+          <canvas id="payment-pie-chart"></canvas>
+        </div>
+        <div class="chart">
+          <canvas id="payment-bar-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const loginPage = document.getElementById("login-page");
+    const mainPage = document.getElementById("main-page");
+    const loginButton = document.getElementById("login-button");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginError = document.getElementById("login-error");
+
+    loginButton.addEventListener("click", () => {
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+
+      if (username === "admin" && password === "admin") {
+        loginPage.style.display = "none";
+        mainPage.style.display = "block";
+      } else {
+        loginError.style.display = "block";
+      }
+    });
+    const invoiceTableBody = document.querySelector("#invoice-table tbody");
+    const invoiceIdInput = document.getElementById("invoice-id");
+    const invoiceStatusInput = document.getElementById("invoice-status");
+    const paymentMethodInput = document.getElementById("payment-method");
+    const amountInput = document.getElementById("amount");
+    const addInvoiceButton = document.getElementById("add-invoice");
+
+    let paymentData = {
+      "Credit Card": 0,
+      "PayPal": 0,
+      "Bank Transfer": 0,
+    };
+
+    const pieChartCtx = document.getElementById("payment-pie-chart").getContext("2d");
+    const barChartCtx = document.getElementById("payment-bar-chart").getContext("2d");
+
+    const pieChart = new Chart(pieChartCtx, {
+      type: "pie",
+      data: {
+        labels: ["Credit Card", "PayPal", "Bank Transfer"],
+        datasets: [{
+          data: [0, 0, 0],
+          backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"],
+        }]
+      },
+    });
+
+    const barChart = new Chart(barChartCtx, {
+      type: "bar",
+      data: {
+        labels: ["Credit Card", "PayPal", "Bank Transfer"],
+        datasets: [{
+          label: "Amount by Payment Method",
+          data: [0, 0, 0],
+          backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"],
+        }]
+      },
+    });
+
+    function updateCharts() {
+      pieChart.data.datasets[0].data = [
+        paymentData["Credit Card"],
+        paymentData["PayPal"],
+        paymentData["Bank Transfer"]
+      ];
+      pieChart.update();
+
+      barChart.data.datasets[0].data = [
+        paymentData["Credit Card"],
+        paymentData["PayPal"],
+        paymentData["Bank Transfer"]
+      ];
+      barChart.update();
+    }
+
+    addInvoiceButton.addEventListener("click", () => {
+      const invoiceId = invoiceIdInput.value;
+      const status = invoiceStatusInput.value;
+      const method = paymentMethodInput.value;
+      const amount = parseFloat(amountInput.value);
+
+      if (!invoiceId || !status || !method || isNaN(amount)) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${invoiceId}</td>
+        <td>${status}</td>
+        <td>${method}</td>
+        <td>
+          <div class="amount-control">
+            <button class="decrement">-</button>
+            <span class="amount">$${amount.toFixed(2)}</span>
+            <button class="increment">+</button>
+          </div>
+        </td>
+      `;
+      invoiceTableBody.appendChild(row);
+
+      paymentData[method] += amount;
+      updateCharts();
+
+      const decrementButton = row.querySelector(".decrement");
+      const incrementButton = row.querySelector(".increment");
+      const amountSpan = row.querySelector(".amount");
+
+      decrementButton.addEventListener("click", () => {
+        const currentAmount = parseFloat(amountSpan.textContent.slice(1));
+        if (currentAmount > 0) {
+          paymentData[method] -= 1;
+          amountSpan.textContent = `$${Math.max(0, currentAmount - 1).toFixed(2)}`;
+          updateCharts();
+        }
+      });
+
+      incrementButton.addEventListener("click", () => {
+        const currentAmount = parseFloat(amountSpan.textContent.slice(1));
+        paymentData[method] += 1;
+        amountSpan.textContent = `$${(currentAmount + 1).toFixed(2)}`;
+        updateCharts();
+      });
+
+      invoiceIdInput.value = "";
+      invoiceStatusInput.value = "";
+      paymentMethodInput.value = "";
+      amountInput.value = "";
+    });
+  </script>
+</body>
+</html>
