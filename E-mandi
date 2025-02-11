@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Mandi Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Miniver&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: rgb(255, 255, 255);
+      background-color: rgb(2, 138, 118);
+      color: rgb(0, 0, 0);
+      transition: background-color 0.7s, color 0.7s;
+      align-items: center;
+      justify-content: center;
+      display:block;
+    }
+    body.dark-mode {
+      background-color: rgb(20, 18, 29);
+      color: rgb(255, 255, 255);
+    }
+    .switch {
+      position:relative;
+      top: 370px;
+      right: 80px;
+      width: 150px;
+      height: 70px;
+    }
+    .switch input {
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      cursor:pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #acacac;
+      background:linear-gradient(#dddddd, #7e7e7e);
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+      transition: 0.4s;
+      border-radius: 100px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 60px;
+      width: 60px;
+      left: 7px;
+      bottom: 5px;
+      background-color: white;
+      background:linear-gradient(#3d3d3d, #555555);
+      transition: 1.0s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #fdb61c;
+    }
+    input:checked + .slider:before {
+      transform: translateX(78px);
+      background-color: rgb(20, 18, 29);
+      transform: translateX(77px);
+      background-color: rgb(0, 0, 0);
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(#7e7e7e, #343434);
+      color: #ffbb00;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .logo img {
+      width: 30px;
+      margin-right: 10px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 500;
+      padding: 5px 15px;
+      transition: background 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+
+    nav a.active {
+      background-color: #ffa726;
+      color: #4b1d1d;
+      border-radius: 20px;
+    }
+    section {
+      padding: 100px 20px;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    .home {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 50px;
+    }
+
+    .home .text-content {
+      max-width: 50%;
+    }
+
+    .home h1 {
+      font-family: 'Miniver', cursive;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .home p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .home img {
+      max-width: 40%;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.73);
+    }
+    .about img {
+      width: 600px;
+      height: 350px;
+      border-radius: 7%;
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .about h2 {
+      font-family: 'Miniver', cursive;
+      font-size: 36px;
+      color: #ffd026;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      margin-left: 30%;
+      margin-right: 30%;
+      background-color: rgb(255, 255, 255);
+      background-color: rgb(195, 196, 212);
+      color: rgb(0, 0, 0);
+      transition: background-color 0.7s, color 0.7s;
+      
+    }
+
+    .menu h2 {
+      font-family: 'Miniver', cursive;
+      font-size: 36px;
+      color: #ffd026;
+    }
+
+    .menu .underline {
+      width: 80px;
+      height: 3px;
+      background-color: #ffd026;
+      margin: 10px auto 40px;
+    }
+
+    .menu-items {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .menu-item {
+      max-width: 250px;
+      text-align: center;
+    }
+
+    .menu-item img {
+      height:200px;
+      width: 280px;
+      border-radius: 10px;
+      box-shadow: 0 15px 20px rgb(0, 0, 0);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .menu-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-item h3 {
+      font-size: 20px;
+      margin: 15px 0 10px;
+      color: #ffd026;
+    }
+
+    .menu-item p {
+      font-size: 14px;
+      color: #dddddd;
+      line-height: 1.6;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .popup-content {
+      display: flex;
+      background: #2b2b2b;
+      color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 60%;
+      max-width: 800px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .popup-content img {
+      width: 50%;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+
+    .popup-details {
+      text-align: left;
+      flex: 1;
+    }
+
+    .popup-details h3 {
+      font-family: 'Miniver', cursive;
+      font-size: 32px;
+      color: #ffd026;
+      margin-bottom: 10px;
+    }
+
+    .popup-details p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      color: #dddddd;
+      margin-bottom: 15px;
+    }
+
+    .popup-details .price {
+      font-size: 20px;
+      color: #ffd026;
+      margin-bottom: 20px;
+    }
+
+    .popup-details button {
+      background: linear-gradient(#ffe600, #ffae00);
+      border: none;
+      color: #4b1d1d;
+      font-family: 'Miniver', cursive;
+      font-size: 22px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup-details button:hover {
+      background: #ffffff;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #ffd026;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .contact h2 {
+      font-family: 'Miniver', cursive;
+      font-size: 36px;
+      color: #ffd026;
+      margin-bottom: 20px;
+    }
+
+    .contact form {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .contact label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+      color: #ffffff;
+    }
+
+    .contact input, .contact button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .contact input {
+      background-color: #ffffff;
+      color: #4b1d1d;
+    }
+
+    .contact button {
+      background: linear-gradient(#ffe600,#ffae00);
+      font-family: 'Miniver';
+      font-size: 25px;
+      color: #4b1d1d;
+      cursor: pointer;
+    }
+
+    .contact button:hover {
+      background-color: #ffffff;
+    }
+
+    .thank-you-message {
+      font-family: 'Miniver', cursive;
+      font-size: 36px;
+      color: #ffd026;
+      display: none;
+      margin-top: 20px;
+    }
+    .login, .register {
+      padding: 100px 50px;
+    }
+
+    .login h2, .register h2 {
+      font-family: 'Miniver', cursive;
+      font-size: 36px;
+      color: #ffd026;
+      margin-bottom: 30px;
+    }
+
+    .login form, .register form {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .login label, .register label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+      color: #ffffff;
+    }
+
+    .login input, .register input, .login button, .register button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .login input, .register input {
+      background-color: #ffffff;
+      color: #4b1d1d;
+    }
+
+    .login button, .register button {
+      background: linear-gradient(#ffe600, #ffae00);
+      font-family: 'Miniver';
+      font-size: 25px;
+      color: #4b1d1d;
+      cursor: pointer;
+    }
+
+    .login button:hover, .register button:hover {
+      background-color: #ffffff;
+    }
+    
+
+.register-btn:hover {
+  background-color: #ffffff;
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/ef/3a/76/ef3a766176ca373cdf0f2555f0642c53.jpg" alt="Coffee Logo">
+      <span>E-Mandi Market</span>
+    </div>
+    <nav>
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#menu" class="nav-link">Inventory</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="#login" class="nav-link">Login</a>
+    </nav>
+  </div>
+
+  <section id="home" class="home">
+    <div class="text-content">
+      <h1>Welcome to E-Mandi Market</h1>
+      <p>Make your day great with our special farmer picked Fruits and Veegetables! Where every fruit tells a story and every taste sparks joy.</p>
+    </div>
+    <label class="switch">
+        <input type="checkbox" onclick="document.body.classList.toggle('dark-mode')">
+        <span class="slider"></span>
+      </label>
+    <img src="https://media.post.rvohealth.io/wp-content/uploads/2020/08/fruits-and-vegetables-thumb-1-732x549.jpg" alt="fruits Image">
+  </section>
+
+  <section id="about" class="about">
+    <img src="https://t4.ftcdn.net/jpg/09/47/94/37/360_F_947943775_eVPeI3j42SozuqsTZis336DF1Oi8nC2F.jpg" alt="About Us">
+    <h2>About Us</h2>
+    <h1>At E-Mandi, we are committed to bringing you the freshest, most nutritious fruits and vegetables directly from local farmers to your doorstep. By cutting out the middleman, we not only offer great prices but also support sustainable farming practices and empower local communities. Whether you're looking for organic greens, seasonal fruits, or farm-fresh vegetables, E-Mandi makes it easier than ever to enjoy healthy, farm-to-table goodness.</h1>
+  </section>
+
+  <section id="menu" class="menu">
+    <h2>Our Inventory</h2>
+    <div class="underline"></div>
+    <div class="menu-items">
+      <div class="menu-item" onclick="showPopup('Bananas', 'Rich in potassium and perfect for a healthy snack.', '$2.99', 'https://nutritionsource.hsph.harvard.edu/wp-content/uploads/2018/08/bananas-1354785_1920-1024x683.jpg')">
+        <img src="https://nutritionsource.hsph.harvard.edu/wp-content/uploads/2018/08/bananas-1354785_1920-1024x683.jpg" alt="Hot Beverages">
+        <h3>Bananas</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('mangoes', 'Sweet and tropical, rich in vitamin A and antioxidants.', '$2.99', 'https://deyga.in/cdn/shop/articles/mangoes-cover-1.jpg?v=1617118328')">
+        <img src="https://deyga.in/cdn/shop/articles/mangoes-cover-1.jpg?v=1617118328" alt="Refreshment">
+        <h3>Mangoes</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Grapes', 'Bite-sized and refreshing, full of antioxidants.', '$2.99', 'https://canadianfoodfocus.org/wp-content/uploads/2020/09/table-grapes.jpg')">
+        <img src="https://canadianfoodfocus.org/wp-content/uploads/2020/09/table-grapes.jpg" alt="Refreshment">
+        <h3>Grapes</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Tomatoes', 'Versatile and tangy, rich in vitamin C and lycopene.', '$2.99', 'https://media.post.rvohealth.io/wp-content/uploads/2020/09/AN313-Tomatoes-732x549-Thumb-732x549.jpg')">
+        <img src="https://media.post.rvohealth.io/wp-content/uploads/2020/09/AN313-Tomatoes-732x549-Thumb-732x549.jpg" alt="Refreshment">
+        <h3>Tomatoes</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Onions', 'Pungent and flavorful, adds depth to dishes.', '$2.99', 'https://www.thoughtco.com/thmb/NA2t9j8ThBD7nPN913Sym1pwSYg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/full-frame-shot-of-onions-in-market-stall-562386223-59b97e59845b340010f8d76e.jpg')">
+        <img src="https://www.thoughtco.com/thmb/NA2t9j8ThBD7nPN913Sym1pwSYg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/full-frame-shot-of-onions-in-market-stall-562386223-59b97e59845b340010f8d76e.jpg" alt="Refreshment">
+        <h3>Onions</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Okra', 'Slimy yet nutritious, high in fiber and folate.', '$2.99', 'https://cdn-prod.medicalnewstoday.com/content/images/articles/311/311977/okra-raw.jpg')">
+        <img src="https://cdn-prod.medicalnewstoday.com/content/images/articles/311/311977/okra-raw.jpg" alt="Refreshment">
+        <h3>Okra</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Cauliflower', 'Mild and versatile, great for low-carb diets.', '$2.99', 'https://static.toiimg.com/thumb/msid-114193352,width-1280,height-720,imgsize-117908,resizemode-6,overlay-toi_sw,pt-32,y_pad-40/photo.jpg')">
+        <img src="https://static.toiimg.com/thumb/msid-114193352,width-1280,height-720,imgsize-117908,resizemode-6,overlay-toi_sw,pt-32,y_pad-40/photo.jpg" alt="Refreshment">
+        <h3>Cauliflower</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Bottle Gourd', 'Light and hydrating, great for digestion.', '$2.99', 'https://www.jiomart.com/images/product/original/590001217/bottle-gourd-approx-600-g-900-g-product-images-o590001217-p596483940-0-202408070949.jpg?im=Resize=(420,420)')">
+        <img src="https://www.jiomart.com/images/product/original/590001217/bottle-gourd-approx-600-g-900-g-product-images-o590001217-p596483940-0-202408070949.jpg?im=Resize=(420,420)" alt="Refreshment">
+        <h3>Bottle Gourd</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Bitter Gourd', 'Bitter but beneficial, helps regulate blood sugar.', '$2.99', 'https://gardeningcentre.in/cdn/shop/files/bittergourdsmal.jpg?v=1706029185')">
+        <img src="https://gardeningcentre.in/cdn/shop/files/bittergourdsmal.jpg?v=1706029185" alt="Refreshment">
+        <h3>Bitter Gourd</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Lemons', 'Zesty and tangy, rich in vitamin C.', '$2.99', 'https://www.tastingtable.com/img/gallery/31-types-of-lemons-and-what-makes-them-unique/intro-1656086555.jpg')">
+        <img src="https://www.tastingtable.com/img/gallery/31-types-of-lemons-and-what-makes-them-unique/intro-1656086555.jpg" alt="Refreshment">
+        <h3>Lemons</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Custard Apple', 'Sweet and creamy, packed with vitamins and minerals.', '$2.99', 'https://www.godigit.com/content/dam/godigit/directportal/en/benefits-of-including-custard-apple-in-diet-plan.jpg')">
+        <img src="https://www.godigit.com/content/dam/godigit/directportal/en/benefits-of-including-custard-apple-in-diet-plan.jpg" alt="Refreshment">
+        <h3>Custard Apple</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Dragon Fruit', 'Exotic and vibrant, full of antioxidants and fiber.', '$2.99', 'https://images.everydayhealth.com/images/diet-nutrition/dragon-fruit-101-1440x810.jpg')">
+        <img src="https://images.everydayhealth.com/images/diet-nutrition/dragon-fruit-101-1440x810.jpg" alt="Refreshment">
+        <h3>Dragon Fruit</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Kiwi', 'Tart and juicy, loaded with vitamin C and potassium', '$2.99', 'https://cdn.britannica.com/45/126445-050-4C0FA9F6/Kiwi-fruit.jpg')">
+        <img src="https://cdn.britannica.com/45/126445-050-4C0FA9F6/Kiwi-fruit.jpg" alt="Refreshment">
+        <h3>Kiwi</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Avacado', 'Creamy and rich, a source of healthy fats.', '$2.99', 'https://images.healthshots.com/healthshots/en/uploads/2024/04/04153309/avocado-1.jpg')">
+        <img src="https://images.healthshots.com/healthshots/en/uploads/2024/04/04153309/avocado-1.jpg" alt="Refreshment">
+        <h3>Avacado</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Strawberries', 'Sweet and juicy, high in vitamin C and antioxidants.', '$2.99', 'https://foodal.com/wp-content/uploads/2015/03/Make-Strawberry-Season-Last-All-Year.jpg')">
+        <img src="https://foodal.com/wp-content/uploads/2015/03/Make-Strawberry-Season-Last-All-Year.jpg" alt="Refreshment">
+        <h3>Strawberries</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Carrots', 'Crunchy and sweet, a great source of beta-carotene.', '$2.99', 'https://www.hhs1.com/hubfs/carrots%20on%20wood-1.jpg')">
+        <img src="https://www.hhs1.com/hubfs/carrots%20on%20wood-1.jpg" alt="Refreshment">
+        <h3>Carrots</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Eggplant', 'Soft and spongy, full of fiber and antioxidants.', '$2.99', 'https://www.bradleysmoker.com/cdn/shop/articles/Smoked-Marinated-Eggplant-Recipe-scaled.jpg?v=1675739133&width=1500')">
+        <img src="https://www.bradleysmoker.com/cdn/shop/articles/Smoked-Marinated-Eggplant-Recipe-scaled.jpg?v=1675739133&width=1500" alt="Refreshment">
+        <h3>Eggplant</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Garlic', 'Pungent and medicinal, known for its immune-boosting properties.', '$2.99', 'https://plantura.garden/uk/wp-content/uploads/sites/2/2023/07/garlic-bulbs-cloves-1024x683.jpg?x63657')">
+        <img src="https://plantura.garden/uk/wp-content/uploads/sites/2/2023/07/garlic-bulbs-cloves-1024x683.jpg?x63657" alt="Refreshment">
+        <h3>Garlic</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Ginger', 'Spicy and aromatic, aids digestion and fights inflammation.', '$2.99', 'https://www.garnierusa.com/-/media/project/loreal/brand-sites/garnier/usa/us/articles_new/strengthen-fragile-hair-with-ginger/garnier_article-header_ginger.jpg?rev=07e043606da3401aa15837849d8fef41')">
+        <img src="https://www.garnierusa.com/-/media/project/loreal/brand-sites/garnier/usa/us/articles_new/strengthen-fragile-hair-with-ginger/garnier_article-header_ginger.jpg?rev=07e043606da3401aa15837849d8fef41" alt="Refreshment">
+        <h3>Ginger</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Broccoli', 'Crunchy and nutrient-dense, rich in fiber and vitamins.', '$2.99', 'https://www.foodmatters.com/media/cache/8e/5a/8e5a3dd2e8281a1a8f7e2ebdf397892a.jpg')">
+        <img src="https://www.foodmatters.com/media/cache/8e/5a/8e5a3dd2e8281a1a8f7e2ebdf397892a.jpg" alt="Refreshment">
+        <h3>Broccoli</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Cabbage', 'Leafy and crunchy, good for digestion and immunity.', '$2.99', 'https://images.squarespace-cdn.com/content/v1/60d5fe5c9e25003cd4b3b2ed/1634316438635-27FNWQSMMPRHWXB0MLGJ/green-cabbage-envato.jpg')">
+        <img src="https://images.squarespace-cdn.com/content/v1/60d5fe5c9e25003cd4b3b2ed/1634316438635-27FNWQSMMPRHWXB0MLGJ/green-cabbage-envato.jpg" alt="Refreshment">
+        <h3>Cabbage</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Potatoes', 'Starchy and filling, a versatile kitchen staple.', '$2.99', 'https://media.post.rvohealth.io/wp-content/uploads/2020/09/AN440-Potatoes-732x549-thumb-732x549.jpg')">
+        <img src="https://media.post.rvohealth.io/wp-content/uploads/2020/09/AN440-Potatoes-732x549-thumb-732x549.jpg" alt="Refreshment">
+        <h3>Potatoes</h3>
+        <p></p>
+      </div>
+      <div class="menu-item" onclick="showPopup('Corn', 'Sweet and chewy, rich in fiber and natural sugars.', '$2.99', 'https://chefsmandala.com/wp-content/uploads/2018/03/corn.jpg')">
+        <img src="https://chefsmandala.com/wp-content/uploads/2018/03/corn.jpg" alt="Refreshment">
+        <h3>Corn</h3>
+        <p></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <form id="contact-form">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="thank-you" class="thank-you-message">
+      Thank you, we will reach out to you soon!
+    </div>
+  </section>
+  
+  <section id="login" class="login">
+    <h2>Login</h2>
+    <form>
+      <label for="login-email">Email:</label>
+      <input type="email" id="login-email" placeholder="Enter your email" required>
+      <label for="login-password">Password:</label>
+      <input type="password" id="login-password" placeholder="Enter your password" required>
+      <button type="submit" id="login-btn">Login</button>
+    </form>
+    <p>New user? <a href="#register" class="nav-link">Register here</a></p>
+  </section>
+
+  <section id="register" class="register">
+    <h2>Register</h2>
+    <form>
+      <label for="register-name">Name:</label>
+      <input type="text" id="register-name" placeholder="Enter your name" required>
+      <label for="register-email">Email:</label>
+      <input type="email" id="register-email" placeholder="Enter your email" required>
+      <label for="register-password">Password:</label>
+      <input type="password" id="register-password" placeholder="Enter your password" required>
+      <button type="submit" id="register-btn">Register</button>
+    </form>
+  </section>
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <img id="popup-img" src="" alt="Product Image">
+      <div class="popup-details">
+        <h3 id="popup-title"></h3>
+        <p id="popup-description"></p>
+        <div class="price" id="popup-price"></div>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <button class="close-btn" onclick="closePopup()">X</button>
+  </div>
+
+  <script>
+    function showPopup(title, description, price, imgSrc) {
+      document.getElementById('popup-title').textContent = title;
+      document.getElementById('popup-description').textContent = description;
+      document.getElementById('popup-price').textContent = price;
+      document.getElementById('popup-img').src = imgSrc;
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetSection = document.querySelector(link.getAttribute('href'));
+        const offsetTop = targetSection.offsetTop;
+        window.scrollTo({
+          top: offsetTop - 50, 
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('thank-you').style.display = 'block';
+      document.getElementById('contact-form').reset();
+    });
+  </script>
+</body>
+</html>
