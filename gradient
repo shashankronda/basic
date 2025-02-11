@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Circle with Transitions and Navbar</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background: radial-gradient(circle, #2600ad, #08003df8, #000000);
+        }
+        .navbar {
+            width: 100%;
+            background: linear-gradient( #a1a1a1, #474747, #3f3f3f);
+            padding: 1px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            box-shadow: 0 1px 90px rgb(0, 0, 0);
+        }
+
+        .navbar .logo {
+            font-size: 30px;
+            color: rgb(0, 0, 0);
+            border-radius: 1px solid;
+            letter-spacing: 4px;
+            align-items: center;
+            text-shadow: #000000;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .wrapper {
+            position: relative;
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 70px;
+            margin-top: 50px;
+        }
+
+        .switch input {
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(#ffffff, #2e2e2e, #161616);
+            box-shadow: inset 0 0 30px rgb(255, 255, 255), 0 30px 30px rgba(0, 0, 0, 0.842);
+            transition: 0.4s;
+            border-radius: 100px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 55px;
+            width: 55px;
+            left: 9px;
+            bottom: 8px;
+            background: linear-gradient();
+            box-shadow: inset 0px 0px 9px 1px #ffffff;
+            transition: 1.5s ease;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider:before {
+            transform: translate(75px);
+            background-color: #100061;
+            box-shadow: inset 0px 0px 20px 1px #000000;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .gradient-circle,
+        .gradient-circle2,
+        .gradient-circle3 {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .gradient-circle {
+            background: linear-gradient(#a2d5f3, #0127ff, #160270, #08001f);
+            box-shadow: inset 0 0 30px rgb(146, 143, 143), 0 50px 50px rgba(0, 0, 0, 0.842);
+            top: 20px;
+            left: 60px;
+        }
+
+        .gradient-circle2 {
+            background: linear-gradient(135deg, #ffe600, #ff7a18, #af0009, #4b0041, #14003a);
+            box-shadow: inset 0 0 30px rgba(209, 205, 205, 0.712), 0 50px 50px rgba(0, 0, 0, 0.842);
+            top: 90px;
+            left: 0;
+        }
+
+        .gradient-circle3 {
+            background: linear-gradient(135deg);
+            box-shadow: inset 0 0 30px rgba(209, 205, 205, 0.712), 0 50px 50px rgba(0, 0, 0, 0.842);
+            top: 90px;
+            left: 110px;
+        }
+
+        body.transition .gradient-circle {
+            transform: translate(50px, 70px);
+        }
+
+        body.transition .gradient-circle2 {
+            transform: translate(50px, -70px);
+        }
+
+        body.transition .gradient-circle3 {
+            transform: translate(-110px, 0px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Dynamic Gradient circles</div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="circle-container">
+            <div class="gradient-circle"></div>
+            <div class="gradient-circle2"></div>
+            <div class="gradient-circle3"></div>
+        </div>
+        <label class="switch">
+            <input type="checkbox" id="toggleSwitch">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script>
+        document.getElementById('toggleSwitch').addEventListener('click', function() {
+            document.body.classList.toggle('transition');
+        });
+    </script>
+</body>
+</html>
